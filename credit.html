@@ -1,0 +1,55 @@
+<html>
+
+<head>
+    <title></title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.0/css/bootstrap.css" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.js"></script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.5/angular.js"></script>
+    <script type="text/javascript">
+        var app = angular.module("myApp", []);
+        app.controller("myCntrl", ['$scope', '$http', function ($scope, $http) {
+            ApplyCreditCardFormat($("#txtCreditCard"));
+        }]);
+
+        function ApplyCreditCardFormat(ele) {
+            $(ele).keyup(function () {
+                $(this).val($(this).val().toCardFormat());
+            });
+
+            String.prototype.toCardFormat = function () {
+                return this.replace(/[^0-9]/g, "").substr(0, 16).split("").reduce(cardFormat, "");
+                function cardFormat(str, l, i) {
+                    return str + ((!i || (i % 4)) ? "" : " ") + l;
+                }
+            };
+        }
+    </script>
+</head>
+
+<body ng-app="myApp" ng-controller="myCntrl">
+    <div class="container">
+        <div>
+            <div id="wrapper" class="clearfix">
+                <div class="form-horizontal">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="CreditCard">
+                                Credit card No
+                            </label>
+                            <input type="text" id="txtCreditCard" ng-model="CreditCard" name="CreditCard"
+                                class="form-control" />
+                            <div style="margin-top: 20px;" ng-bind=CreditCard>
+                                {CreditCard}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
